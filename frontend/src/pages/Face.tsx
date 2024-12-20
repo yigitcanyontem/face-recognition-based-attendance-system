@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, {useState, useRef, useEffect} from 'react';
 import axios from 'axios';
 import Webcam from 'react-webcam';
 
@@ -19,9 +19,14 @@ const Face = () => {
             return;
         }
         try {
-            const res = await axios.post('http://127.0.0.1:8000/api/face-recognition/', {
+            const res = await axios.post('http://127.0.0.1:8000/api/face-recognition/detect', {
                 image: imageSrc,
+            }, {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
             });
+
             setResponse(res.data);
             setError(null);
         } catch (err) {
@@ -42,7 +47,7 @@ const Face = () => {
                 }}
             />
             <button onClick={captureAndSend}>Scan Face</button>
-            {error && <p style={{ color: 'red' }}>{error}</p>}
+            {error && <p style={{color: 'red'}}>{error}</p>}
             {response && (
                 <div>
                     <h2>Prediction</h2>
