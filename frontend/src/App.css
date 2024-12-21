@@ -1,42 +1,95 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+
+.main_container {
+    min-height: 95vh;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.login_main_container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.header_container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
 }
 
-.card {
-  padding: 2em;
+.common_container {
+    display: flex;
+    width: clamp(300px, 80%, 1200px);
+    margin: 30px auto;
+    align-items: center;
 }
 
-.read-the-docs {
-  color: #888;
+@media (max-width: 768px) {
+    .common_container {
+        width: 100%;
+    }
+}
+
+.custom_scrollbar::-webkit-scrollbar {
+    height: 20px;
+    width: 15px;
+}
+
+.custom_scrollbar::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+
+.custom_scrollbar::-webkit-scrollbar-thumb {
+    background-color: #d6dee1;
+    border-radius: 20px;
+    border: 6px solid transparent;
+    background-clip: content-box;
+    min-height: 20px;
+}
+
+.custom_scrollbar::-webkit-scrollbar-thumb:hover {
+    background-color: #a8bbbf;
+}
+
+.justify-content-center {
+    justify-content: center;
+}
+.width-full {
+    width: 100%;
+}
+
+.common_container {
+    padding: 20px;
+}
+
+.course-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.course-card {
+    border-radius: 8px;
+    padding: 30px !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+}
+
+.course-card:hover {
+    box-shadow: 0 2px 8px rgb(147, 146, 146);
+}
+
+.course-card h3 {
+    font-size: 1.2rem;
+}
+
+.course-card p {
+    font-size: 1rem;
+    color: #555;
 }
