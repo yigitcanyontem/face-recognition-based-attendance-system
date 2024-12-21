@@ -26,7 +26,10 @@ def load_dataset_and_extract_embeddings(data_dir):
     for person_dir in Path(data_dir).iterdir():
         if person_dir.is_dir():
             label = person_dir.name
-            for image_path in person_dir.glob('*.jpg'):
+            image_files = list(person_dir.glob('*.jpg')) + list(person_dir.glob('*.jpeg')) + list(
+                person_dir.glob('*.png'))
+
+            for image_path in image_files:
                 img = cv2.imread(str(image_path))
                 if img is not None:
                     embeddings = get_embeddings(img)
@@ -41,6 +44,7 @@ def load_dataset_and_extract_embeddings(data_dir):
 
 # Load dataset and extract embeddings
 X, y = load_dataset_and_extract_embeddings(faces_data_dir)
+print(f"Loaded {len(X)} samples and {len(np.unique(y))} unique labels.")
 
 if X.size == 0 or y.size == 0:
     print("There was an issue with the embedded data set.")
@@ -48,6 +52,7 @@ else:
     # Encode labels
     label_encoder = LabelEncoder()
     y_encoded = label_encoder.fit_transform(y)
+    print(f"Encoded labels: {np.unique(y_encoded)}")  # Check encoded labels
 
     # Train-test split
     X_train, X_test, y_train, y_test = train_test_split(X, y_encoded, test_size=0.2, random_state=123)

@@ -32,7 +32,6 @@ def detect(request):
         # Decode the image
         image = decode_image(image_base64)
 
-        print(image_base64)
         # Get the embedding
         embedding = get_embeddings(image)
         if embedding is None:
@@ -43,6 +42,13 @@ def detect(request):
         predicted_index = np.argmax(predictions)
         predicted_class = label_encoder.inverse_transform([predicted_index])[0]
         confidence = predictions[predicted_index]
+
+        if confidence < 0.5:
+            return JsonResponse({
+                "predicted_class": "Unknown",
+                "confidence": confidence * 100,
+            })
+
 
         return JsonResponse({
             "predicted_class": predicted_class,
