@@ -39,5 +39,5 @@ def test_single_image(image_path):
     print(f"Predicted: {predicted_class} with {confidence * 100:.2f}% confidence")
 
 # Test image
-test_image_path = 'test/enis2.png'  # Replace with your test image path
+test_image_path = 'test/kelly.jpg'  # Replace with your test image path
 test_single_image(test_image_path)

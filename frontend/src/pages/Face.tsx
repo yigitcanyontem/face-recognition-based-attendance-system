@@ -52,6 +52,7 @@ const Face = () => {
             }).then((res) => {
                 AttendanceService.saveAttendance(res.data.predicted_class, id, AttendanceStatus.PRESENT)
                 const predictedClass = res.data.predicted_class;
+                setResponse(res.data);
                 setReload(!reload);
                 setError("");
             });
