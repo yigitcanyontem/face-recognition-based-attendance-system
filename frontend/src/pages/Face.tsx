@@ -25,8 +25,10 @@ const Face = () => {
 
             UserCourseService.getStudentsInCourse(parseInt(id)).then(res => {
                 let attendees = r.attendances.map((attendance: any) => attendance.user.id);
+                console.log(attendees)
                 res.forEach((student: any) => {
                     student.attended = attendees.includes(student.user.id) ;
+                    console.log([student])
                 });
                 setStudents(res);
             });
@@ -107,7 +109,7 @@ const Face = () => {
                             <TableRow key={student.id}>
                                 <TableCell>{student.user.id}</TableCell>
                                 <TableCell className={'text-xl'}>{student.user.username}</TableCell>
-                                <TableCell className={'text-xl'}>{attended.includes(student.user.id) ? "Attended" : "Not Attended"}</TableCell>
+                                <TableCell className={'text-xl'}>{student.attended ? "Attended" : "Not Attended"}</TableCell>
                             </TableRow>
                         ))}
                     </TableBody>
