@@ -23,13 +23,13 @@ const Student = () => {
     return (
         <div className={'common_container'}>
             <div className={"flex flex-col gap-10"}>
-                <Label>My Lessons</Label>
+                <Label style={{textTransform: 'capitalize', fontSize: '2em'}}>My Lessons</Label>
                 <div className="course-cards">
                     {courses.map((course: Lesson) => (
                         <Card key={course.id} className="course-card" onClick={navigateToCourseDetail(course.id)}>
                             <CardContent>
-                                <CardTitle>{course.name}</CardTitle>
-                                <p>{course.description}</p>
+                                <CardTitle style={{textTransform: 'capitalize', fontSize: '1.2em', marginBottom: '10px'}}>{course.name}</CardTitle>
+                                <p style={{textTransform: 'capitalize', fontSize: '1.2em'}}>{course.description}</p>
                             </CardContent>
                         </Card>
                     ))}

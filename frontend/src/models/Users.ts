@@ -7,4 +7,5 @@ export interface Users {
     email: string;
     role: Role;
     createdAt: Date;
+    attended: boolean;
 }

@@ -8,6 +8,8 @@ import {LessonTime} from "@/models/LessonTime.ts";
 import {LessonTimeService} from "@/services/lesson-time-service.ts";
 import {Button} from "@/components/ui/button.tsx";
 import {UserCourseService} from "@/services/user-course-service.ts";
+import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from '@/components/ui/table';
+import {Label} from "@/components/ui/label.tsx";
 
 const Face = () => {
     const [response, setResponse] = useState(null);
@@ -17,19 +19,19 @@ const Face = () => {
     const [students, setStudents] = useState<any>([]);
     const {id} = useParams();
     const [attended, setAttended] = useState<any>([]);
-    const [reload, setReload] = useState(false);
     useEffect(() => {
         LessonTimeService.getLessonTime(id).then(r => {
             setTimes(r);
-            const attendedUsers = r.attendances.map((attendance: any) => attendance.user.id);
-            setAttended(attendedUsers);
-        })
 
-        UserCourseService.getStudentsInCourse(parseInt(id)).then(r => {
-            setStudents(r);
-            console.log(r)
-        });
-    }, [reload]);
+            UserCourseService.getStudentsInCourse(parseInt(id)).then(res => {
+                let attendees = r.attendances.map((attendance: any) => attendance.user.id);
+                res.forEach((student: any) => {
+                    student.attended = attendees.includes(student.user.id) ;
+                });
+                setStudents(res);
+            });
+        })
+    }, []);
 
     const captureAndSend = async () => {
         if (!webcamRef.current) {
@@ -52,8 +54,10 @@ const Face = () => {
             }).then((res) => {
                 AttendanceService.saveAttendance(res.data.predicted_class, id, AttendanceStatus.PRESENT)
                 const predictedClass = res.data.predicted_class;
+                let student = students.find((student: any) => student.user.username === predictedClass);
+                student.attended = true;
+                setAttended([...attended, student.user.id]);
                 setResponse(res.data);
-                setReload(!reload);
                 setError("");
             });
 
@@ -77,7 +81,7 @@ const Face = () => {
                         facingMode: 'user',
                     }}
                 />
-                <Button style={{margin: '10px'}} onClick={captureAndSend}>Scan Face</Button>
+                <Button style={{margin: '10px', fontSize: '1.2em'}} onClick={captureAndSend}>Scan Face</Button>
                 {error && <p style={{color: 'red'}}>{error}</p>}
                 {response && (
                     <div>
@@ -89,25 +93,25 @@ const Face = () => {
             </div>
 
             <div className={"ms-10"}>
-                <h2>Students</h2>
-                <table>
-                    <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Status</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {students.map((student: any) => (
-                        <tr key={student.id}>
-                            <td>{student.user.id}</td>
-                            <td>{student.user.username}</td>
-                            <td>{attended.includes(student.user.id) ? "Attended" : "Not Attended"}</td>
-                        </tr>
-                    ))}
-                    </tbody>
-                </table>
+                <Label className={'text-xl'}>Students</Label>
+                <Table>
+                    <TableHeader>
+                        <TableRow>
+                            <TableHead className={'text-xl'}>ID</TableHead>
+                            <TableHead className={'text-xl'}>Name</TableHead>
+                            <TableHead className={'text-xl'}>Status</TableHead>
+                        </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                        {students.map((student) => (
+                            <TableRow key={student.id}>
+                                <TableCell>{student.user.id}</TableCell>
+                                <TableCell className={'text-xl'}>{student.user.username}</TableCell>
+                                <TableCell className={'text-xl'}>{attended.includes(student.user.id) ? "Attended" : "Not Attended"}</TableCell>
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
             </div>
         </div>
     );

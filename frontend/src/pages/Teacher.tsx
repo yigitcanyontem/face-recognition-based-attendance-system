@@ -30,7 +30,7 @@ const Teacher = () => {
     return (
         <div className={'common_container'}>
             <div className={"flex flex-col gap-10"}>
-                <Label>My Lessons</Label>
+                <Label style={{textTransform: 'capitalize', fontSize: '2em'}}>My Lessons</Label>
                 <div className="course-cards">
                     {times.map((lessonTime: LessonTime) => (
                         <Card
@@ -39,13 +39,13 @@ const Teacher = () => {
                             onClick={navigateToAttendance(lessonTime.id)}
                         >
                             <CardContent>
-                                <CardTitle>{lessonTime.lesson.name}</CardTitle>
+                                <CardTitle style={{textTransform: 'capitalize', fontSize: '1.2em', marginBottom: '10px'}}>{lessonTime.lesson.name}</CardTitle>
                                 <CardDescription>
-                                    <div><strong>Teacher:</strong> {lessonTime.teacher.username}</div>
-                                    <div>
+                                    <div style={{textTransform: 'capitalize', fontSize: '1.2em'}}><strong>Teacher:</strong> {lessonTime.teacher.username}</div>
+                                    <div style={{fontSize: '1.2em'}}>
                                         <strong>Time:</strong> {`${format(new Date(lessonTime.startTime), 'h:mm a')} - ${format(new Date(lessonTime.endTime), 'h:mm a')}`}
                                     </div>
-                                    <div><strong>Date:</strong> {format(new Date(lessonTime.date), 'MMMM dd, yyyy')}
+                                    <div style={{fontSize: '1.2em'}}><strong>Date:</strong> {format(new Date(lessonTime.date), 'MMMM dd, yyyy')}
                                     </div>
 
                                 </CardDescription>
