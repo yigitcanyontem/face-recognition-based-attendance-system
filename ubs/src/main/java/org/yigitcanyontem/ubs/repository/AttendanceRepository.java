@@ -11,4 +11,5 @@ public interface AttendanceRepository extends JpaRepository<Attendance, Integer>
     @Query("SELECT a FROM Attendance a WHERE a.user.id = :userId AND a.lesson.id = :lessonId")
     List<Attendance> findByUserIdAndLessonId(@Param("userId") Integer userId, @Param("lessonId") Integer lessonId);
 
+    boolean existsByUserUsernameAndLessonId(String username, Integer lessonTimeId);
 }

@@ -7,7 +7,7 @@ export class AttendanceService {
 
     static baseUrl: string = GlobalConstants.baseUrl + 'attendance';
 
-    static saveAttendance(username: string, lessonTimeId: number, status: AttendanceStatus): Promise<Attendance> {
+    static saveAttendance(username: string, lessonTimeId: number, status: AttendanceStatus): Promise<any> {
         return axios.post(`${this.baseUrl}/save`, null, {
             params: {
                 username,
@@ -18,7 +18,7 @@ export class AttendanceService {
         .then(response => response.data)
         .catch(error => {
             console.error('Error saving attendance:', error);
-            throw error;
+            return {error: error.response.data}
         });
     }
 

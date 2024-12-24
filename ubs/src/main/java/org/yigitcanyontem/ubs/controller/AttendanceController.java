@@ -1,6 +1,7 @@
 package org.yigitcanyontem.ubs.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.yigitcanyontem.ubs.domain.Attendance;
@@ -19,12 +20,16 @@ public class AttendanceController {
     private AttendanceService attendanceService;
 
     @PostMapping("/save")
-    public ResponseEntity<Attendance> saveAttendance(
+    public ResponseEntity<?> saveAttendance(
             @RequestParam String username,
             @RequestParam Integer lessonTimeId,
             @RequestParam AttendanceStatus status) {
-        Attendance attendance = attendanceService.saveAttendance(username, lessonTimeId, status);
-        return ResponseEntity.ok(attendance);
+        try {
+            Attendance attendance = attendanceService.saveAttendance(username, lessonTimeId, status);
+            return ResponseEntity.ok(attendance);
+        }catch (IllegalArgumentException e) {
+            return new ResponseEntity<>("User already attended this lesson",HttpStatus.BAD_REQUEST);
+        }
     }
 
     @GetMapping("/lesson")

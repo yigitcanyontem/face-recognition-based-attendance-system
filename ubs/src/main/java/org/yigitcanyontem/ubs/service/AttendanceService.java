@@ -35,6 +35,11 @@ public class AttendanceService {
     }
 
     public Attendance saveAttendance(String username, Integer lessonTimeId,AttendanceStatus status) {
+        if (userAlreadyAttendedLesson(username, lessonTimeId)) {
+            throw new IllegalArgumentException("User already attended this lesson");
+        }
+
+
         Users user = usersRepository.findByUsername(username)
                 .orElseThrow(() -> new IllegalArgumentException("User not found with username: " + username));
         LessonTime lesson = lessonTimeRepository.findById(lessonTimeId)
@@ -48,5 +53,9 @@ public class AttendanceService {
                 .build();
 
         return attendanceRepository.saveAndFlush(attendance);
+    }
+
+    private boolean userAlreadyAttendedLesson(String username, Integer lessonTimeId) {
+        return attendanceRepository.existsByUserUsernameAndLessonId(username, lessonTimeId);
     }
 }

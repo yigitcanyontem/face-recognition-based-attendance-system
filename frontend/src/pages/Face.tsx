@@ -25,10 +25,8 @@ const Face = () => {
 
             UserCourseService.getStudentsInCourse(parseInt(id)).then(res => {
                 let attendees = r.attendances.map((attendance: any) => attendance.user.id);
-                console.log(attendees)
                 res.forEach((student: any) => {
                     student.attended = attendees.includes(student.user.id) ;
-                    console.log([student])
                 });
                 setStudents(res);
             });
@@ -54,7 +52,11 @@ const Face = () => {
                     'Content-Type': 'application/json',
                 },
             }).then((res) => {
-                AttendanceService.saveAttendance(res.data.predicted_class, id, AttendanceStatus.PRESENT)
+                AttendanceService.saveAttendance(res.data.predicted_class, id, AttendanceStatus.PRESENT).then(r => {
+                    setError(r.error ? r.error : "");
+                }, (err) => {
+                    console.error('Error saving attendance:', err);
+                });
                 const predictedClass = res.data.predicted_class;
                 let student = students.find((student: any) => student.user.username === predictedClass);
                 student.attended = true;
@@ -62,8 +64,6 @@ const Face = () => {
                 setResponse(res.data);
                 setError("");
             });
-
-
         } catch (err) {
             console.error('Error sending the image:', err);
             setError('Error sending the image. Please try again later.');
