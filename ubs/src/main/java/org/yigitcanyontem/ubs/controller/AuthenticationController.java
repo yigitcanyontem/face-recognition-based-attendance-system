@@ -29,4 +29,9 @@ public class AuthenticationController {
         return ResponseEntity.ok(authenticationService.authenticate(request));
     }
 
+    @PostMapping("/login-with-face/{username}")
+    public ResponseEntity<AuthenticationResponse> authenticateWithFace(@PathVariable("username") String username) throws LoginException {
+        return ResponseEntity.ok(authenticationService.authenticateWithFace(username));
+    }
+
 }

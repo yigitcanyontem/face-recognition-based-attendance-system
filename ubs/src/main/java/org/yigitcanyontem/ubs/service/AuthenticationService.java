@@ -32,4 +32,12 @@ public class AuthenticationService {
                 .build();
     }
 
+    public AuthenticationResponse authenticateWithFace(String username) {
+        Users user = usersRepository.findByUsername(username).orElseThrow();
+        return AuthenticationResponse.builder()
+                .role(user.getRole())
+                .userId(user.getId())
+                .email(user.getEmail())
+                .build();
+    }
 }

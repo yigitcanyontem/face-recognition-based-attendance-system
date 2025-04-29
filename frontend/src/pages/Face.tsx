@@ -79,6 +79,7 @@ const Face = () => {
                     ref={webcamRef}
                     audio={false}
                     screenshotFormat="image/jpeg"
+                    mirrored={true}
                     videoConstraints={{
                         facingMode: 'user',
                     }}

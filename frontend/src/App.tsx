@@ -9,6 +9,7 @@ import Student from "@/pages/Student.tsx";
 import Teacher from "@/pages/Teacher.tsx";
 import Lesson from "@/pages/Lesson.tsx";
 import Lecture from "@/pages/Lecture.tsx";
+import LoginWithFace from "@/pages/LoginWithFace.tsx";
 
 function App() {
 
@@ -24,6 +25,7 @@ function App() {
                     <Route path="/attendance/:id" element={<Face/>}/>
                     <Route path="/course/:id" element={<Lesson/>}/>
                     <Route path="/lecture/:id" element={<Lecture/>}/>
+                    <Route path="/login-with-face" element={<LoginWithFace/>}/>
                     <Route path="*" element={<div>404</div>}/>
                 </Routes>
             </HashRouter>

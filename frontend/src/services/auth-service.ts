@@ -19,6 +19,19 @@ export class AuthService {
             });
     }
 
+
+    static loginWithFace(request: string): Promise<AuthenticationResponse>{
+        return axios.post(`${this.baseUrl}/login-with-face/`+ request)
+            .then(response => {
+                this.setSessionStorage(response.data);
+                return response.data;
+            })
+            .catch(error => {
+                console.error('Error logging in:', error);
+                return {error: error.response.data}
+            });
+    }
+
     static logout() {
         sessionStorage.removeItem('email');
         sessionStorage.removeItem('userId');
@@ -30,4 +43,6 @@ export class AuthService {
         sessionStorage.setItem('role', authenticationResponse.role);
         sessionStorage.setItem('userId', authenticationResponse.userId.toString());
     }
+
+
 }

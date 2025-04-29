@@ -7,7 +7,7 @@ import {Input} from "@/components/ui/input.tsx";
 import {Label} from "@/components/ui/label.tsx";
 import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/components/ui/card.tsx";
 import {useToast} from "@/hooks/use-toast.ts";
-import {useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 
 const Login = () => {
 
@@ -33,7 +33,10 @@ const Login = () => {
             navigate(result.role === 'TEACHER' ? '/teacher' : '/student');
             setResponse(result);
             setError(null);
-            window.location.reload()
+
+            setTimeout(()=>{
+                window.location.reload()
+            },1500)
         } catch (err) {
             toast({
                 title: "Error while logging in",
@@ -79,6 +82,9 @@ const Login = () => {
                         </div>
                         {error && <p className="text-red-500">{error}</p>}
                         <Button type="submit" className="w-full mt-4">Login</Button>
+                        <Link to={'/login-with-face'}>
+                            <Button variant={'outline'} className="w-full mt-4">Login with Face ID</Button>
+                        </Link>
                     </form>
                 </CardContent>
             </Card>
